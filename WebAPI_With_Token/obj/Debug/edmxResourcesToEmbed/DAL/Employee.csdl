@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SampleEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="SampleModel.Department" />
+    <EntitySet Name="Employees" EntityType="SampleModel.Employee" />
+    <AssociationSet Name="FK_Employees_Departments" Association="SampleModel.FK_Employees_Departments">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <EntitySet Name="Cities" EntityType="SampleModel.City" />
+    <EntitySet Name="Countries" EntityType="SampleModel.Country" />
+    <AssociationSet Name="FK_Cities_Countries" Association="SampleModel.FK_Cities_Countries">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="City" EntitySet="Cities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Cities" Association="SampleModel.FK_Employees_Cities">
+      <End Role="City" EntitySet="Cities" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employees_Countries" Association="SampleModel.FK_Employees_Countries">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <FunctionImport Name="sp_GetEmployee" ReturnType="Collection(SampleModel.sp_GetEmployee_Result)" />
+    <FunctionImport Name="sp_GetEmployeeById" ReturnType="Collection(SampleModel.sp_GetEmployeeById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetEmployee_for_datatable" ReturnType="Collection(SampleModel.sp_GetEmployee_for_datatable_Result)">
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+      <Parameter Name="FirstRow" Mode="In" Type="Int32" />
+      <Parameter Name="LastRow" Mode="In" Type="Int32" />
+      <Parameter Name="SortColumn" Mode="In" Type="String" />
+      <Parameter Name="SortOrder" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remart" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Employees" Relationship="SampleModel.FK_Employees_Departments" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DepartmentId" Type="Int64" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Department" Relationship="SampleModel.FK_Employees_Departments" FromRole="Employee" ToRole="Department" />
+    <Property Name="Gender" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CityId" Type="Int32" />
+    <Property Name="CountryId" Type="Int32" />
+    <NavigationProperty Name="City" Relationship="SampleModel.FK_Employees_Cities" FromRole="Employee" ToRole="City" />
+    <NavigationProperty Name="Country" Relationship="SampleModel.FK_Employees_Countries" FromRole="Employee" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK_Employees_Departments">
+    <End Type="SampleModel.Department" Role="Department" Multiplicity="0..1" />
+    <End Type="SampleModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CountryId" Type="Int32" />
+    <NavigationProperty Name="Country" Relationship="SampleModel.FK_Cities_Countries" FromRole="City" ToRole="Country" />
+    <NavigationProperty Name="Employees" Relationship="SampleModel.FK_Employees_Cities" FromRole="City" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cities" Relationship="SampleModel.FK_Cities_Countries" FromRole="Country" ToRole="City" />
+    <NavigationProperty Name="Employees" Relationship="SampleModel.FK_Employees_Countries" FromRole="Country" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_Cities_Countries">
+    <End Type="SampleModel.Country" Role="Country" Multiplicity="0..1" />
+    <End Type="SampleModel.City" Role="City" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="City">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Cities">
+    <End Type="SampleModel.City" Role="City" Multiplicity="0..1" />
+    <End Type="SampleModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employees_Countries">
+    <End Type="SampleModel.Country" Role="Country" Multiplicity="0..1" />
+    <End Type="SampleModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_GetEmployee_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="20" />
+    <Property Type="Int64" Name="DepartmentId" Nullable="true" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CityId" Nullable="true" />
+    <Property Type="String" Name="CityName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CountryId" Nullable="true" />
+    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_GetEmployeeById_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="UserId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="20" />
+    <Property Type="Int64" Name="DepartmentId" Nullable="true" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CityId" Nullable="true" />
+    <Property Type="String" Name="CityName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CountryId" Nullable="true" />
+    <Property Type="String" Name="CountryName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_GetEmployee_for_datatable_Result">
+    <Property Type="Int64" Name="RowNum" Nullable="true" />
+    <Property Type="Int32" Name="Total" Nullable="true" />
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+</Schema>

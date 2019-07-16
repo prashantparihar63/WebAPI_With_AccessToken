@@ -1,0 +1,124 @@
+﻿@model WebAPI_With_Token.Models.EmployeeUpdateModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <br />
+        <h4>Edit Employee Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            <span class="control-label col-md-2">User Id</span>
+            <div class="col-md-10">
+                @Html.Hidden("id")
+                @Html.EditorFor(model => model.userId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">First Name</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.firstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Last Name</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Email</span>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Department</span>
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", null, "Select Department", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.departmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Gender</span>
+            <div class="col-md-10 radio">
+
+                <label>@Html.RadioButtonFor(model => model.gender, "Male") Male</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>@Html.RadioButtonFor(model => model.gender, "Female")Female</label>
+
+                @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Country</span>
+            <div class="col-md-10">
+                @Html.DropDownList("CountryId", null, "Select Country", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.countryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">City</span>
+            <div class="col-md-10">
+                @Html.DropDownList("CityId", null, "Select City", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.cityId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-1">
+                <input id="submit" type="submit" value="Update" class="btn btn-primary" /> &nbsp; &nbsp;
+            </div>
+            <div class="col-md-2">
+                <input type="button" value="Cancel" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Datatable")
+</div>
+
+
+
+
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script>
+    $("#submit").click(function () {
+        $("#loader").show();
+    });
+    debugger;
+    $(document).ready(function () {
+        if (@ViewBag.Updated == true) {
+            $("#successModal").find("p").text("Employee record updated successfully.");
+            $("#successModal").find("a").text("Back to Employee List.");
+            $("#successModal").find("a").attr("href", '/employee/datatable');
+            $('#successModal').modal('show');
+        }
+    });
+</script>
