@@ -6,7 +6,7 @@ using WebAPI_With_Token.Models;
 
 namespace WebAPI_With_Token.Mapping
 {
-    public class UserMapping
+    public static class EmployeeMapping
     {
         public static List<LoginModel> userListMapping(IQueryable<ApplicationUser> users)
         {

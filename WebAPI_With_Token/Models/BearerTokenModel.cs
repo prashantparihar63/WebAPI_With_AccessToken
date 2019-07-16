@@ -8,6 +8,5 @@ namespace WebAPI_With_Token.Models
     public class BearerTokenModel
     {
         public string access_token { get; set; }
-        public Nullable<bool> firstTimeLogin { get; set; }
     }
 }

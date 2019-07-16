@@ -117,3 +117,8 @@ D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\obj\Debug\WebAPI_With_T
 D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\obj\Debug\WebAPI_With_Token.pdb
 D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\Swashbuckle.Core.dll
 D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\WebActivatorEx.dll
+D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\log4net.dll
+D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\log4net.xml
+D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\jQueryDataTable.DynamicLinq.dll
+D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\System.Linq.Dynamic.Core.dll
+D:\prashant\Projects\WebAPI_With_Token\WebAPI_With_Token\bin\System.Linq.Dynamic.Core.xml
